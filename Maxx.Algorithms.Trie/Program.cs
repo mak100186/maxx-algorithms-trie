@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 
 using RestSharp;
 
@@ -19,19 +20,23 @@ internal class Program
             _trie.Insert(word);
         }
 
-        Console.WriteLine("Words starting with 'ab':");
+        SearchWordStartingWith("ab");
+        SearchWordStartingWith("acc");
+        SearchWordStartingWith("zu");
+    }
+
+    private static void SearchWordStartingWith(string prefix)
+    {
+        Console.WriteLine($"Words starting with '{prefix}':");
+        var stopWatch = new Stopwatch();
+        stopWatch.Start();
         var wordsThatStartWith = _trie.StartsWith("ab");
         foreach (var word in wordsThatStartWith)
         {
             Console.WriteLine(word);
         }
-
-        Console.WriteLine("Words starting with 'acc':");
-        wordsThatStartWith = _trie.StartsWith("acc");
-        foreach (var word in wordsThatStartWith)
-        {
-            Console.WriteLine(word);
-        }
+        stopWatch.Stop();
+        Console.WriteLine($"Search completed in:{stopWatch.ElapsedMilliseconds} ms");
     }
 }
 
